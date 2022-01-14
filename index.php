@@ -23,16 +23,29 @@
  */
 
 require_once(__DIR__ . '/../../config.php');
+require_once(__DIR__ . '/../../lib/filelib.php');
+
 
 $PAGE->set_url(new moodle_url('/local/nasa_portal/index.php'));
 $PAGE->set_context(\context_system::instance());
 $PAGE->set_title(get_string('pluginname', 'local_nasa_portal'));
 $PAGE->set_heading(get_string('pluginname', 'local_nasa_portal'));
 
+function getdata()
+{
+    $c = new curl;
+    $html = $c->get('https://api.nasa.gov/planetary/apod?api_key=WfItBV5eWRn3mKWdp9mfCJpxqfgwLRqkBqok5vhK');
+    return json_decode($html);
+}
+
+$data = getdata();
+$src = $data->url;
+
 /* Output */
 $templatecontext = (object)[
-
+    'src' => $src
 ];
 
 echo $OUTPUT->header();
+echo $OUTPUT->render_from_template('local_nasa_portal/nasa_portal', $templatecontext);
 echo $OUTPUT->footer();
