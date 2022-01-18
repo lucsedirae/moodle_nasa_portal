@@ -24,26 +24,21 @@
 
 require_once(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/../../lib/filelib.php');
-
+require_once(__DIR__ . '/lib.php');
 
 $PAGE->set_url(new moodle_url('/local/nasa_portal/index.php'));
 $PAGE->set_context(\context_system::instance());
 $PAGE->set_title(get_string('pluginname', 'local_nasa_portal'));
 $PAGE->set_heading(get_string('pluginname', 'local_nasa_portal'));
 
-function getdata()
-{
-    $c = new curl;
-    $html = $c->get('https://api.nasa.gov/planetary/apod?api_key=WfItBV5eWRn3mKWdp9mfCJpxqfgwLRqkBqok5vhK');
-    return json_decode($html);
-}
+require_login();
 
-$data = getdata();
-$src = $data->url;
+// Astronomy picture of the day.
+$apod = get_apod();
 
 /* Output */
 $templatecontext = (object)[
-    'src' => $src
+    'src' => $apod->url
 ];
 
 echo $OUTPUT->header();
