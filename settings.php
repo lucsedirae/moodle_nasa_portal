@@ -22,12 +22,19 @@
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'NASA Portal';
-$string['apodfor'] = 'Astronomy picture of the day for';
-$string['apodheader'] = 'Astronomy picture of the day';
-$string['apodhires'] = 'High resolution image';
-$string['apodsettingsdescription'] = 'Display astronomy picture of the day?';
-$string['include'] = "Include";
-$string['title'] = 'Title';
-$string['copyright'] = 'Copyright';
-$string['moreinfo'] = 'More information';
+defined('MOODLE_INTERNAL') || die();
+
+if ($hassiteconfig) {
+    $ADMIN->add('localplugins', new admin_category('local_nasa_portal_settings', get_string('pluginname', 'local_nasa_portal')));
+    $settingspage = new admin_settingpage('managelocalnasaportal', get_string('pluginname', 'local_nasa_portal'));
+
+    if ($ADMIN->fulltree) {
+        $settingspage->add(new admin_setting_heading('apod', get_string('apodheader', 'local_nasa_portal'),
+            get_string('apodheader', 'local_nasa_portal')));
+        $settingspage->add(new admin_setting_configcheckbox('local_nasa_portal/apod',
+            get_string('include', 'local_nasa_portal') . '?',
+            get_string('apodsettingsdescription', 'local_nasa_portal'),
+            1));
+    }
+    $ADMIN->add('localplugins', $settingspage);
+}

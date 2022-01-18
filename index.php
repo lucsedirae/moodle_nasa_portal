@@ -35,6 +35,8 @@ require_login();
 
 // Astronomy picture of the day.
 $apod = get_apod();
+$apodsettings = new \stdClass();
+$apodsettings->apod = get_config('local_nasa_portal', apod);
 
 /* Output */
 $apodcontext = (object)[
@@ -47,5 +49,7 @@ $apodcontext = (object)[
 ];
 
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('local_nasa_portal/apod', $apodcontext);
+if ($apodsettings->apod === '1') {
+    echo $OUTPUT->render_from_template('local_nasa_portal/apod', $apodcontext);
+}
 echo $OUTPUT->footer();
