@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Reading list plugin to maintain a list of books or URL's to refer to
+ * This is an informational plugin that displays data from a variety of NASA public API's
  *
  * @package    local_nasa_portal
  * @copyright  2022 Jon Deavers jonathan.deavers@moodle.com
@@ -23,16 +23,33 @@
  */
 
 require_once(__DIR__ . '/../../config.php');
+require_once(__DIR__ . '/../../lib/filelib.php');
+require_once(__DIR__ . '/lib.php');
 
 $PAGE->set_url(new moodle_url('/local/nasa_portal/index.php'));
 $PAGE->set_context(\context_system::instance());
 $PAGE->set_title(get_string('pluginname', 'local_nasa_portal'));
 $PAGE->set_heading(get_string('pluginname', 'local_nasa_portal'));
 
-/* Output */
-$templatecontext = (object)[
+require_login();
 
+// Astronomy picture of the day.
+$apod = get_apod();
+$apodsettings = new \stdClass();
+$apodsettings->apod = get_config('local_nasa_portal', apod);
+
+/* Output */
+$apodcontext = (object)[
+    'url' => $apod->url,
+    'copyright' => $apod->copyright,
+    'date' => $apod->date,
+    'explanation' => $apod->explanation,
+    'hdurl' => $apod->hdurl,
+    'title' => $apod->title,
 ];
 
 echo $OUTPUT->header();
+if ($apodsettings->apod === '1') {
+    echo $OUTPUT->render_from_template('local_nasa_portal/apod', $apodcontext);
+}
 echo $OUTPUT->footer();

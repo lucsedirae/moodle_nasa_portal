@@ -22,12 +22,27 @@
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'NASA Portal';
-$string['apodfor'] = 'Astronomy picture of the day for';
-$string['apodheader'] = 'Astronomy picture of the day';
-$string['apodhires'] = 'High resolution image';
-$string['apodsettingsdescription'] = 'Display astronomy picture of the day?';
-$string['include'] = "Include";
-$string['title'] = 'Title';
-$string['copyright'] = 'Copyright';
-$string['moreinfo'] = 'More information';
+defined('MOODLE_INTERNAL') || die();
+require_once(__DIR__ . '/../../lib/filelib.php');
+
+
+/**
+ * Insert link to index.php on site front page nav menu
+ *
+ * @param navigation_node $frontpage Node representing the front page in the nav tree
+ */
+function local_nasa_portal_extend_navigation(navigation_node $frontpage) {
+    $frontpage->add(
+        get_string('pluginname', 'local_nasa_portal'),
+        new moodle_url('/local/nasa_portal/index.php')
+    );
+}
+
+/**
+ * @return object Astronomy Picture of the Day data
+ */
+function get_apod() {
+    $c = new curl;
+    $html = $c->get('https://api.nasa.gov/planetary/apod?api_key=WfItBV5eWRn3mKWdp9mfCJpxqfgwLRqkBqok5vhK');
+    return json_decode($html);
+}
