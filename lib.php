@@ -22,30 +22,16 @@
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__ . '/../../config.php');
-require_once(__DIR__ . '/../../lib/filelib.php');
+defined('MOODLE_INTERNAL') || die();
 
-
-$PAGE->set_url(new moodle_url('/local/nasa_portal/index.php'));
-$PAGE->set_context(\context_system::instance());
-$PAGE->set_title(get_string('pluginname', 'local_nasa_portal'));
-$PAGE->set_heading(get_string('pluginname', 'local_nasa_portal'));
-
-function getdata()
-{
-    $c = new curl;
-    $html = $c->get('https://api.nasa.gov/planetary/apod?api_key=WfItBV5eWRn3mKWdp9mfCJpxqfgwLRqkBqok5vhK');
-    return json_decode($html);
+/**
+ * Insert link to index.php on site front page nav menu
+ *
+ * @param navigation_node $frontpage Node representing the front page in the nav tree
+ */
+function local_nasa_portal_extend_navigation(navigation_node $frontpage) {
+    $frontpage->add(
+        get_string('pluginname', 'local_nasa_portal'),
+        new moodle_url('/local/nasa_portal/index.php')
+    );
 }
-
-$data = getdata();
-$src = $data->url;
-
-/* Output */
-$templatecontext = (object)[
-    'src' => $src
-];
-
-echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('local_nasa_portal/nasa_portal', $templatecontext);
-echo $OUTPUT->footer();

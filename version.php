@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Reading list plugin to maintain a list of books or URL's to refer to
+ * This is an informational plugin that displays data from a variety of NASA public API's
  *
  * @package    local_nasa_portal
  * @copyright  2022 Jon Deavers jonathan.deavers@moodle.com
