@@ -23,3 +23,9 @@
  */
 
 $string['pluginname'] = 'NASA Portal';
+$string['apodfor'] = 'Astronomy picture of the day for';
+$string['apodheader'] = 'Astronomy picture of the day';
+$string['apodhires'] = 'High resolution image';
+$string['title'] = 'Title';
+$string['copyright'] = 'Copyright';
+$string['moreinfo'] = 'More information';

@@ -28,20 +28,21 @@
     }
 }}
 
-<h2>Astronomy Picture of the Day</h2>
-<img src="{{url}}" alt="APOD" width="500">
-<p>Title: "{{title}}" </p>
-<p>Copyright: {{copyright}}</p>
+<h2>{{#str}}apodheader, local_nasa_portal {{/str}}</h2>
+<img src="{{url}}" alt="{{title}}" width="500">
+<p>{{#str}}title, local_nasa_portal{{/str}}: "{{title}}" </p>
+<p>{{#str}}copyright, local_nasa_portal{{/str}}: {{copyright}}</p>
 <p>
     <a class="btn btn-primary" data-toggle="collapse" href="#moreInfo" role="button" aria-expanded="false"
        aria-controls="moreInfo">
-        More information
+        {{#str}}moreinfo, local_nasa_portal{{/str}}
     </a>
 </p>
 <div class="collapse" id="moreInfo">
     <div class="card card-body">
-        <p>Astronomy picture of the day for <strong>{{date}}</strong></p>
+        <p>{{#str}}apodfor, local_nasa_portal{{/str}} <strong>{{date}}</strong></p>
         <p>{{explanation}}</p>
-        <a class="btn btn-secondary" href="{{hdurl}}" target="_blank" rel="noreferrer" aria-expanded="false">High resolution image</a>
+        <a class="btn btn-secondary" href="{{hdurl}}" target="_blank" rel="noreferrer" aria-expanded="false">{{#str}}
+            apodhires, local_nasa_portal{{/str}}</a>
     </div>
 </div>
