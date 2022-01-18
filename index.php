@@ -37,10 +37,15 @@ require_login();
 $apod = get_apod();
 
 /* Output */
-$templatecontext = (object)[
-    'src' => $apod->url
+$apodcontext = (object)[
+    'url' => $apod->url,
+    'copyright' => $apod->copyright,
+    'date' => $apod->date,
+    'explanation' => $apod->explanation,
+    'hdurl' => $apod->hdurl,
+    'title' => $apod->title,
 ];
 
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('local_nasa_portal/nasa_portal', $templatecontext);
+echo $OUTPUT->render_from_template('local_nasa_portal/apod', $apodcontext);
 echo $OUTPUT->footer();
