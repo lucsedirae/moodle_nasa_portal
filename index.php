@@ -34,22 +34,16 @@ $PAGE->set_heading(get_string('pluginname', 'local_nasa_portal'));
 require_login();
 
 // Astronomy picture of the day.
-$apod = get_apod();
+$apod = null;
 $apodsettings = new \stdClass();
 $apodsettings->apod = get_config('local_nasa_portal', apod);
+if ($apodsettings->apod === '1') {
+    $apod = local_nasa_portal_get_apod();
+}
 
 /* Output */
-$apodcontext = (object)[
-    'url' => $apod->url,
-    'copyright' => $apod->copyright,
-    'date' => $apod->date,
-    'explanation' => $apod->explanation,
-    'hdurl' => $apod->hdurl,
-    'title' => $apod->title,
-];
-
 echo $OUTPUT->header();
-if ($apodsettings->apod === '1') {
-    echo $OUTPUT->render_from_template('local_nasa_portal/apod', $apodcontext);
+if ($apod !== null) {
+    echo $OUTPUT->render_from_template('local_nasa_portal/apod', $apod);
 }
 echo $OUTPUT->footer();
