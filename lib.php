@@ -25,7 +25,6 @@
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../../lib/filelib.php');
 
-
 /**
  * Insert link to index.php on site front page nav menu
  *
@@ -41,8 +40,28 @@ function local_nasa_portal_extend_navigation(navigation_node $frontpage) {
 /**
  * @return object Astronomy Picture of the Day data
  */
-function get_apod() {
+function local_nasa_portal_get_apod() {
     $c = new curl;
     $html = $c->get('https://api.nasa.gov/planetary/apod?api_key=WfItBV5eWRn3mKWdp9mfCJpxqfgwLRqkBqok5vhK');
+    $json = json_decode($html);
+    $data = (object)[
+        'url' => $json->url,
+        'copyright' => $json->copyright,
+        'date' => $json->date,
+        'explanation' => $json->explanation,
+        'hdurl' => $json->hdurl,
+        'title' => $json->title,
+    ];
+
+    return $data;
+}
+
+/**
+ * @return object Insight Mars weather data
+ */
+function local_nasa_portal_get_rover_photos() {
+    $c = new curl;
+    $html = $c->get(
+        'https://api.nasa.gov/insight_weather/?api_key=WfItBV5eWRn3mKWdp9mfCJpxqfgwLRqkBqok5vhK&feedtype=json&version=1.0');
     return json_decode($html);
 }
