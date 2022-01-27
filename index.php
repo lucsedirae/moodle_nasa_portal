@@ -22,6 +22,8 @@
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use local_nasa_portal\form\rover_input;
+
 require_once(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/../../lib/filelib.php');
 require_once(__DIR__ . '/lib.php');
@@ -33,17 +35,33 @@ $PAGE->set_heading(get_string('pluginname', 'local_nasa_portal'));
 
 require_login();
 
+// REFACTOR NOTE: can make one settings object and test against its properties
 // Astronomy picture of the day.
 $apod = null;
 $apodsettings = new \stdClass();
-$apodsettings->apod = get_config('local_nasa_portal', apod);
+$apodsettings->apod = get_config('local_nasa_portal', 'apod');
 if ($apodsettings->apod === '1') {
     $apod = local_nasa_portal_get_apod();
 }
 
-/* Output */
+// Rover photos.
+$roverphotos = null;
+$roverform = null;
+$roverphotossettings = new \stdClass();
+$roverphotossettings->roverphotos = get_config('local_nasa_portal', 'roverphotos');
+if ($roverphotossettings->roverphotos === '1') {
+    $roverphotos = local_nasa_portal_get_rover_photos();
+    $roverform = new rover_input();
+}
+
+
+// Output.
 echo $OUTPUT->header();
 if ($apod !== null) {
     echo $OUTPUT->render_from_template('local_nasa_portal/apod', $apod);
+}
+if ($roverphotos !== null) {
+    echo $OUTPUT->render_from_template('local_nasa_portal/rover', $roverphotos);
+    $roverform->display();
 }
 echo $OUTPUT->footer();

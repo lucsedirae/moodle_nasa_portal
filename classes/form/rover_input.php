@@ -21,18 +21,19 @@
  * @copyright  2022 Jon Deavers jonathan.deavers@moodle.com
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+namespace local_nasa_portal\form;
+defined('MOODLE_INTERNAL') || die();
+use moodleform;
+require_once("$CFG->libdir/formslib.php");
 
-$string['pluginname'] = 'NASA Portal';
-$string['apodfor'] = 'Astronomy picture of the day for';
-$string['apodheader'] = 'Astronomy picture of the day';
-$string['apodhires'] = 'High resolution image';
-$string['apodsettingsdescription'] = 'Display astronomy picture of the day?';
-$string['include'] = "Include";
-$string['title'] = 'Title';
-$string['copyright'] = 'Copyright';
-$string['moreinfo'] = 'More information';
-$string['roverphotosheader'] = 'Mars rover photos';
-$string['roverphotossettingsdescription'] = 'Display Mars rover photos?';
-$string['roverformheader'] =  'Search by date';
+class rover_input extends moodleform {
+    public function definition()
+    {
+        global $CFG;
 
+        $mform = $this->_form;
 
+        $mform->addElement('header', 'formheader', get_string('roverformheader', 'local_nasa_portal'));
+
+    }
+}

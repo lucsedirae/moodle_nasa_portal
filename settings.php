@@ -35,6 +35,13 @@ if ($hassiteconfig) {
             get_string('include', 'local_nasa_portal') . '?',
             get_string('apodsettingsdescription', 'local_nasa_portal'),
             1));
+
+        $settingspage->add(new admin_setting_heading('roverphotos', get_string('roverphotosheader', 'local_nasa_portal'),
+            get_string('roverphotosheader', 'local_nasa_portal')));
+        $settingspage->add(new admin_setting_configcheckbox('local_nasa_portal/roverphotos',
+            get_string('include', 'local_nasa_portal') . '?',
+            get_string('roverphotossettingsdescription', 'local_nasa_portal'),
+            1));
     }
     $ADMIN->add('localplugins', $settingspage);
 }
